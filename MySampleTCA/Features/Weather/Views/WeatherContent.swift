@@ -67,7 +67,7 @@ struct WeatherContent: View {
                         .opacity(iconOpacity)
                         .animation(Animation.easeIn(duration: 1.2).delay(0.5), value: iconOpacity)
                 }
-                
+                Spacer()
                 // Weather Details Card with Staggered Animation
                 VStack(spacing: 15) {
                     WeatherDetailRow(icon: "thermometer.snowflake", label: "Feels Like", value: "\(Int(weatherData.main.feelsLike))°C")

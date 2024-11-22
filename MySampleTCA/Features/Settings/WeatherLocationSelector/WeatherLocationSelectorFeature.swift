@@ -17,6 +17,7 @@ struct WeatherLocationSelectorFeature {
     
     @ObservableState
     struct State: Equatable {
+        var firstTime: Bool = false
         var isLoading: Bool = false
         var error: String? = nil
         var locations: IdentifiedArrayOf<WeatherLocation> = []

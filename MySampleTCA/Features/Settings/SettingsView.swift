@@ -12,12 +12,6 @@ struct SettingsView: View {
     
     @Bindable var store: StoreOf<SettingsFeature>
     
-    
-    
-    init(store: StoreOf<SettingsFeature>) {
-        self.store = store
-    }
-    
     var body: some View {
         VStack {
             Form {

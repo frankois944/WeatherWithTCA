@@ -15,7 +15,17 @@ struct WeatherView: View {
         VStack {
             if store.weatherConfig.location != nil {
                 if let content = store.weatherData.content {
-                    WeatherContent(weatherData: content)
+                    GeometryReader { proxy in
+                        ScrollView {
+                            WeatherContent(weatherData: content)
+                                .frame(height: proxy.size.height)
+                        }
+                        .refreshable {
+                            await Task.detached {
+                                await store.send(.startRequest(store.weatherConfig)).finish()
+                            }.value
+                        }
+                    }.ignoresSafeArea()
                 }
             }
         }.overlay {

@@ -57,9 +57,11 @@ struct WeatherLocationSelectorView: View {
             }
         }
         .toolbar {
-            ToolbarItem {
-                Button("Cancel") {
-                    store.send(.cancelTapped)
+            if !store.firstTime {
+                ToolbarItem {
+                    Button("Cancel") {
+                        store.send(.cancelTapped)
+                    }
                 }
             }
         }

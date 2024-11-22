@@ -10,40 +10,46 @@ import Foundation
 
 @Reducer
 struct WeatherFeature {
-
+    
     @Dependency(\.weatherFinder) var weatherFinder
-
+    
     @ObservableState
     struct State: Equatable {
         @Shared(.storedWeatherConfig) var weatherConfig: WeatherConfig = .init()
         @Shared(.storedWeatherData) var weatherData: WeatherData = .init()
         var isLoading = false
-        var error: String? = nil
     }
-
+    
     enum Action: Equatable {
         case startRequest(WeatherConfig)
-        case endRequest(WeatherData?)
+        case endRequest(WeatherData)
+        case failedRequest(String)
         case onAppear
     }
-
+    
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .startRequest(let config):
                 guard let location = config.location else { return .none }
                 state.isLoading = true
-                state.error = nil
                 return .run { send in
-                    let result = await weatherFinder.findWeather(request: .init(unit: config.unit,
-                                                                                lat: location.lat,
-                                                                                lon: location.lon)
-                    )
-                    await send(.endRequest(result))
+                    do {
+                        let result = try await weatherFinder.findWeather(request: .init(unit: config.unit,
+                                                                                        lat: location.lat,
+                                                                                        lon: location.lon)
+                        )
+                        await send(.endRequest(result))
+                    } catch {
+                        await send(.failedRequest(error.localizedDescription))
+                    }
                 }
+            case .failedRequest(let error):
+                print("findWeather: \(error)")
+                state.isLoading = false
+                return .none
             case .endRequest(let data):
                 state.isLoading = false
-                guard let data else { return .none }
                 state.weatherData = data
                 return .none
             case .onAppear:
@@ -53,6 +59,6 @@ struct WeatherFeature {
             }
         }
     }
-
+    
 }
 
