@@ -28,6 +28,16 @@
 		07D417F82CEC798000C339B8 /* MySampleTCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySampleTCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		07373BA02CF107A300A43E45 /* Exceptions for "MySampleTCA" folder in "MySampleTCA" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 07D417F72CEC798000C339B8 /* MySampleTCA */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		07A549132CEF240100FD51BB /* MySampleTCATests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -36,6 +46,9 @@
 		};
 		07D417FA2CEC798000C339B8 /* MySampleTCA */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				07373BA02CF107A300A43E45 /* Exceptions for "MySampleTCA" folder in "MySampleTCA" target */,
+			);
 			path = MySampleTCA;
 			sourceTree = "<group>";
 		};
@@ -388,6 +401,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MySampleTCA/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MySampleTCA/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Find my location to display my local weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find my location to display my local weather";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -425,6 +442,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MySampleTCA/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MySampleTCA/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Find my location to display my local weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find my location to display my local weather";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

@@ -14,13 +14,17 @@ struct WeatherLocationSelectorFeature {
     @Dependency(\.dismiss) var dismiss
 
     @Dependency(\.locationFinder) var locationFinder
+    @Dependency(\.myLocationFinder) var myLocationFinder
+    
+    private static let myLocationItem = WeatherLocation(name: "My Location", lon: -1, lat: -1)
     
     @ObservableState
     struct State: Equatable {
         var firstTime: Bool = false
         var isLoading: Bool = false
         var error: String? = nil
-        var locations: IdentifiedArrayOf<WeatherLocation> = []
+        var locations: IdentifiedArrayOf<WeatherLocation> = [myLocationItem]
+        var myLocationError: String? = nil
     }
     
     enum Action {
@@ -29,6 +33,8 @@ struct WeatherLocationSelectorFeature {
         case selectLocation(location: WeatherLocation)
         case cancelTapped
         case delegate(Delegate)
+        case setMyLocationTapped
+        case myLocationFailed(NSError)
         
         enum Delegate: Equatable {
             case onSelectedLocationEvent(location: WeatherLocation)
@@ -50,11 +56,29 @@ struct WeatherLocationSelectorFeature {
                 return .none
             case .selectLocation(let location):
                 return .run { send in
-                    await send(.delegate(.onSelectedLocationEvent(location: location)))
-                    await self.dismiss()
+                    if location == WeatherLocationSelectorFeature.myLocationItem {
+                        await send(.setMyLocationTapped)
+                    } else {
+                        await send(.delegate(.onSelectedLocationEvent(location: location)))
+                        await self.dismiss()
+                    }
                 }
             case .cancelTapped:
                 return .run { _ in await self.dismiss() }
+            case .setMyLocationTapped:
+                state.myLocationError = nil
+                return .run { send in
+                    do {
+                        await send(.selectLocation(location: try await myLocationFinder.getLatestLocation()))
+                    } catch {
+                        await send(.myLocationFailed(error as NSError))
+                    }
+                }
+            case .myLocationFailed(let error):
+                if error.code != 4 {
+                    state.myLocationError = error.localizedDescription
+                }
+                return .none
             case .delegate:
                 return .none
             }
