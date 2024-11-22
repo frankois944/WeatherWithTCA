@@ -10,11 +10,11 @@ import ComposableArchitecture
 
 struct WeatherData: Equatable, Hashable, Codable {
     let lastUpdate: Date?
-    let temperature: Double
+    let content: WeatherResponse?
     
-    init(lastUpdate: Date? = nil, temperature: Double = 0) {
+    init(lastUpdate: Date? = nil, content: WeatherResponse? = nil) {
         self.lastUpdate = lastUpdate
-        self.temperature = temperature
+        self.content = content
     }
 }
 

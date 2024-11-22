@@ -27,7 +27,7 @@ actor WeatherFinder: DependencyKey {
             let response = try await URLSession.shared.data(from: request.query)
             let data = try JSONDecoder().decode(WeatherResponse.self, from: response.0)
             print("LocationFinder: \(data)")
-            return .init(lastUpdate: Date(), temperature: data.main.temp)
+            return .init(lastUpdate: Date(), content: data)
         } catch {
             print("WeatherFinder: \(error)")
         }

@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - WeatherResponse
-struct WeatherResponse: Codable {
+struct WeatherResponse: Codable, Equatable, Hashable {
     let coord: WeatherCoord
     let weather: [Weather]
     let base: String
@@ -25,17 +25,17 @@ struct WeatherResponse: Codable {
 }
 
 // MARK: - Clouds
-struct WeatherClouds: Codable {
+struct WeatherClouds: Codable, Equatable, Hashable {
     let all: Int
 }
 
 // MARK: - Coord
-struct WeatherCoord: Codable {
+struct WeatherCoord: Codable, Equatable, Hashable {
     let lon, lat: Double
 }
 
 // MARK: - Main
-struct WeatherMain: Codable {
+struct WeatherMain: Codable, Equatable, Hashable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, humidity, seaLevel, grndLevel: Int
 
@@ -51,7 +51,7 @@ struct WeatherMain: Codable {
 }
 
 // MARK: - Rain
-struct WeatherRain: Codable {
+struct WeatherRain: Codable, Equatable, Hashable {
     let the1H: Double
 
     enum CodingKeys: String, CodingKey {
@@ -60,20 +60,20 @@ struct WeatherRain: Codable {
 }
 
 // MARK: - Sys
-struct WeatherSys: Codable {
+struct WeatherSys: Codable, Equatable, Hashable {
     let type, id: Int
     let country: String
     let sunrise, sunset: Int
 }
 
 // MARK: - Weather
-struct Weather: Codable {
+struct Weather: Codable, Equatable, Hashable {
     let id: Int
     let main, description, icon: String
 }
 
 // MARK: - Wind
-struct WeatherWind: Codable {
+struct WeatherWind: Codable, Equatable, Hashable {
     let speed: Double
     let deg: Int
     let gust: Double?

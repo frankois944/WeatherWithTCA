@@ -13,14 +13,14 @@ struct WeatherView: View {
     
     var body: some View {
         VStack {
-            if let location = store.weatherConfig.location {
-                Text(location.name)
-                if store.weatherData.lastUpdate != nil {
-                    Text("\(store.weatherData.temperature)")
+            if store.weatherConfig.location != nil {
+                if let content = store.weatherData.content {
+                    WeatherContent(weatherData: content)
                 }
-                if store.isLoading {
-                    ProgressView("Loading weather")
-                }
+            }
+        }.overlay {
+            if store.isLoading {
+                ProgressView("Loading weather")
             }
         }
     }
