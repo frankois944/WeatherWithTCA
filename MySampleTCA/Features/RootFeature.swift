@@ -11,7 +11,11 @@ import Foundation
 @Reducer
 struct RootFeature {
     
+    // MARK: - Dependency
+    
     @Dependency(\.locationFinder) var locationFinder
+    
+    // MARK: - State
     
     @ObservableState
     struct State: Equatable {
@@ -21,12 +25,25 @@ struct RootFeature {
         @Presents var setLocation: WeatherLocationSelectorFeature.State?
     }
     
+    // MARK: - Action
+    
     enum Action {
+        
+        // MARK: Tabs
+        
         case tab1(WeatherFeature.Action)
         case tab2(SettingsFeature.Action)
+        
+        // MARK: Location
+        
         case setLocation(PresentationAction<WeatherLocationSelectorFeature.Action>)
+        
+        // MARK: Lifecycle
+        
         case onAppear
     }
+    
+    // MARK: - Reducer
     
     var body: some ReducerOf<Self> {
         Scope(state: \.tab1, action: \.tab1) {
@@ -37,6 +54,17 @@ struct RootFeature {
         }
         Reduce { state, action in
             switch action {
+                
+                // MARK: Location
+                
+            case .setLocation(.presented(.delegate(.onSelectedLocationEvent(location: let location)))):
+                state.weatherConfig.location = location
+                return .none
+            case .setLocation:
+                return .none
+                
+                // MARK: Lifecycle
+                
             case .onAppear:
                 defer {
                     if (state.weatherConfig.location == nil) {
@@ -48,11 +76,9 @@ struct RootFeature {
                 return WeatherFeature()
                     .reduce(into: &state.tab1, action: .onAppear)
                     .map { .tab1($0) }
-            case .setLocation(.presented(.delegate(.onSelectedLocationEvent(location: let location)))):
-                state.weatherConfig.location = location
-                return .none
-            case .setLocation:
-                return .none
+                
+                // MARK: Tabs
+                
             case .tab1:
                 return .none
             case .tab2:

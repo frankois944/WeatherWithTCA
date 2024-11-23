@@ -11,26 +11,49 @@ import Foundation
 @Reducer
 struct SettingsFeature {
     
+    // MARK: - Dependency
+    
     @Dependency(\.locationFinder) var locationFinder
+    
+    // MARK: - State
     
     @ObservableState
     struct State: Equatable {
         @Shared(.storedWeatherConfig) var weatherConfig: WeatherConfig = .init()
+        
+        // MARK: Location
+        
         @Presents var setLocation: WeatherLocationSelectorFeature.State?
     }
     
+    // MARK: - Action
+    
     enum Action {
+        
+        // MARK: Temperature
+        
         case setTemperatureUnit(TemperatureUnit)
+        
+        // MARK: Location
+        
         case setLocationTapped
         case setLocation(PresentationAction<WeatherLocationSelectorFeature.Action>)
     }
     
+    // MARK: - Reducer
+    
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+                
+                // MARK: Temperature
+                
             case let .setTemperatureUnit(unit):
                 state.weatherConfig.unit = unit
                 return .none
+                
+                // MARK: Location
+                
             case .setLocationTapped:
                 state.setLocation = WeatherLocationSelectorFeature.State()
                 return .none

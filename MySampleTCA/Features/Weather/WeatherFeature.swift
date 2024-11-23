@@ -11,7 +11,11 @@ import Foundation
 @Reducer
 struct WeatherFeature {
     
+    // MARK: - Dependency
+    
     @Dependency(\.weatherFinder) var weatherFinder
+    
+    // MARK: - State
     
     @ObservableState
     struct State: Equatable {
@@ -20,16 +24,30 @@ struct WeatherFeature {
         var isLoading = false
     }
     
+    
+    // MARK: - Action
+    
     enum Action: Equatable {
+        
+        // MARK: Weather
+        
         case startRequest(WeatherConfig)
         case endRequest(WeatherData)
         case failedRequest(String)
+        
+        // MARK: Lifecycle
+        
         case onAppear
     }
+    
+    // MARK: - Reducer
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+                
+                // MARK: Weather
+                
             case .startRequest(let config):
                 guard let location = config.location else { return .none }
                 state.isLoading = true
@@ -52,6 +70,9 @@ struct WeatherFeature {
                 state.isLoading = false
                 state.weatherData = data
                 return .none
+                
+                // MARK: Lifecycle
+                
             case .onAppear:
                 return .publisher {
                     state.$weatherConfig.publisher.map(Action.startRequest)

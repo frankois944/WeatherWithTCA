@@ -11,7 +11,7 @@ import Combine
 
 struct WeatherLocationSelectorView: View {
     
-    let store: StoreOf<WeatherLocationSelectorFeature>
+    @Bindable var store: StoreOf<WeatherLocationSelectorFeature>
     let searchTextPublisher = PassthroughSubject<String, Never>()
     
     @State var searchQuery: String
@@ -66,6 +66,7 @@ struct WeatherLocationSelectorView: View {
             }
         }
         .navigationTitle("Location")
+        .alert($store.scope(state: \.myLocationErrorDialog, action: \.myLocationErrorDialog))
     }
 }
 
