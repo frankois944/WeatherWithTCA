@@ -24,7 +24,6 @@ struct WeatherLocationSelectorFeature {
         var isLoading: Bool = false
         var error: String? = nil
         var locations: IdentifiedArrayOf<WeatherLocation> = [myLocationItem]
-        var myLocationError: String? = nil
     }
     
     enum Action {
@@ -66,7 +65,6 @@ struct WeatherLocationSelectorFeature {
             case .cancelTapped:
                 return .run { _ in await self.dismiss() }
             case .setMyLocationTapped:
-                state.myLocationError = nil
                 return .run { send in
                     do {
                         await send(.selectLocation(location: try await myLocationFinder.getLatestLocation()))
@@ -76,7 +74,7 @@ struct WeatherLocationSelectorFeature {
                 }
             case .myLocationFailed(let error):
                 if error.code != 4 {
-                    state.myLocationError = error.localizedDescription
+                    print(error)
                 }
                 return .none
             case .delegate:

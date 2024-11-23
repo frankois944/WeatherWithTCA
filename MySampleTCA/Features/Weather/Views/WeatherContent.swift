@@ -12,7 +12,8 @@ struct WeatherContent: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    var weatherData: WeatherResponse // Assume this is the decoded model
+    let weatherData: WeatherData
+    let weatherConfig: WeatherConfig
     
     @State private var iconOpacity: Double = 0
     @State private var iconScale: CGFloat = 0.5
@@ -48,44 +49,43 @@ struct WeatherContent: View {
                 
                 // Weather Icon and Temperature
                 VStack(spacing: 10) {
-                    Image(systemName: symbolForWeather(id: weatherData.weather.first?.id ?? 0))
+                    Image(systemName: symbolForWeather(id: weatherData.icon))
                         .font(.system(size: 80))
                         .foregroundColor(.accentColor)
                         .opacity(iconOpacity)
                         .scaleEffect(iconScale)
                         .animation(Animation.spring(response: 0.8, dampingFraction: 0.6), value: iconScale)
                     
-                    Text("\(Int(weatherData.main.temp))°C")
+                    Text(weatherData.temp.toFormattedTemperature(unit: weatherConfig.unit))
                         .font(.system(size: 60, weight: .bold))
                         .foregroundColor(.primary)
                         .opacity(iconOpacity)
                         .animation(Animation.easeIn(duration: 1.2).delay(0.3), value: iconOpacity)
                     
-                    Text(weatherData.weather.first?.description.capitalized ?? "Unknown")
+                    Text(weatherData.description.capitalized)
                         .font(.title2)
                         .foregroundColor(.secondary)
                         .opacity(iconOpacity)
                         .animation(Animation.easeIn(duration: 1.2).delay(0.5), value: iconOpacity)
                 }
-                Spacer()
                 // Weather Details Card with Staggered Animation
                 VStack(spacing: 15) {
-                    WeatherDetailRow(icon: "thermometer.snowflake", label: "Feels Like", value: "\(Int(weatherData.main.feelsLike))°C")
+                    WeatherDetailRow(icon: "thermometer.snowflake", label: "Feels Like", value: weatherData.feelsLike.toFormattedTemperature(unit: weatherConfig.unit))
                         .offset(y: detailsOffset[0])
                         .opacity(detailsOpacity[0])
                         .animation(Animation.easeOut(duration: 0.8).delay(0.3), value: detailsOpacity[0])
                     
-                    WeatherDetailRow(icon: "humidity.fill", label: "Humidity", value: "\(weatherData.main.humidity)%")
+                    WeatherDetailRow(icon: "humidity.fill", label: "Humidity", value: weatherData.humidity.toFormattedPercent())
                         .offset(y: detailsOffset[1])
                         .opacity(detailsOpacity[1])
                         .animation(Animation.easeOut(duration: 0.8).delay(0.5), value: detailsOpacity[1])
                     
-                    WeatherDetailRow(icon: "wind", label: "Wind", value: "\(Int(weatherData.wind.speed)) km/h")
+                    WeatherDetailRow(icon: "wind", label: "Wind", value: weatherData.wind.toFormattedSpeed(unit:  weatherConfig.unit))
                         .offset(y: detailsOffset[2])
                         .opacity(detailsOpacity[2])
                         .animation(Animation.easeOut(duration: 0.8).delay(0.7), value: detailsOpacity[2])
                     
-                    WeatherDetailRow(icon: "cloud.fill", label: "Cloudiness", value: "\(weatherData.clouds.all)%")
+                    WeatherDetailRow(icon: "cloud.fill", label: "Cloudiness", value: weatherData.clouds.toFormattedPercent())
                         .offset(y: detailsOffset[3])
                         .opacity(detailsOpacity[3])
                         .animation(Animation.easeOut(duration: 0.8).delay(0.9), value: detailsOpacity[3])

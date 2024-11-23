@@ -10,11 +10,26 @@ import ComposableArchitecture
 
 struct WeatherData: Equatable, Hashable, Codable {
     let lastUpdate: Date?
-    let content: WeatherResponse?
+    
+    let name: String
+    let icon: Int
+    let temp: Double
+    let description: String
+    let feelsLike: Double
+    let humidity: Int
+    let wind: Double
+    let clouds: Int
     
     init(lastUpdate: Date? = nil, content: WeatherResponse? = nil) {
         self.lastUpdate = lastUpdate
-        self.content = content
+        self.name = content?.name ?? "N/A"
+        self.icon = content?.weather.first?.id ?? 0
+        self.temp = content?.main.temp ?? 0
+        self.description = content?.weather.first?.description ?? "N/A"
+        self.feelsLike = content?.main.feelsLike ?? 0
+        self.humidity = content?.main.humidity ?? 0
+        self.wind = content?.wind.speed ?? 0
+        self.clouds = content?.clouds.all ?? 0
     }
 }
 
