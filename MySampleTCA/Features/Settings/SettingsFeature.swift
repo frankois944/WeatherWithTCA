@@ -13,6 +13,7 @@ struct SettingsFeature {
     
     // MARK: - Dependency
     
+    @ObservationIgnored
     @Dependency(\.locationFinder) var locationFinder
     
     // MARK: - State

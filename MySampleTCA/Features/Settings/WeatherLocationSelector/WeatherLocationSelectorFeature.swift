@@ -15,7 +15,9 @@ struct WeatherLocationSelectorFeature {
     // MARK: Dependency
     
     @Dependency(\.dismiss) var dismiss
+    @ObservationIgnored
     @Dependency(\.locationFinder) var locationFinder
+    @ObservationIgnored
     @Dependency(\.myLocationFinder) var myLocationFinder
     
     // MARK: - State
@@ -76,7 +78,7 @@ struct WeatherLocationSelectorFeature {
                 state.isLoading = true
                 return .run { send in
                     do {
-                        let result = try await locationFinder.findLocation(request: .init(text: request))
+                        let result = try await locationFinder.findLocation(.init(text: request))
                         await send(.endRequest(response: result))
                     } catch {
                         await send(.failedRequest(error: error.localizedDescription))

@@ -13,6 +13,7 @@ struct WeatherFeature {
     
     // MARK: - Dependency
     
+    @ObservationIgnored
     @Dependency(\.weatherFinder) var weatherFinder
     
     // MARK: - State
@@ -53,9 +54,9 @@ struct WeatherFeature {
                 state.isLoading = true
                 return .run { send in
                     do {
-                        let result = try await weatherFinder.findWeather(request: .init(unit: config.unit,
-                                                                                        lat: location.lat,
-                                                                                        lon: location.lon)
+                        let result = try await weatherFinder.findWeather(.init(unit: config.unit,
+                                                                               lat: location.lat,
+                                                                               lon: location.lon)
                         )
                         await send(.endRequest(result))
                     } catch {

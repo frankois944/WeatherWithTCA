@@ -7,7 +7,13 @@
 
 import Foundation
 import Dependencies
+import ComposableArchitecture
 
+@DependencyClient
+struct WeatherFinder {
+    var findWeather: @Sendable (WeatherRequest) async throws -> WeatherData
+}
+    
 extension DependencyValues {
     var weatherFinder: WeatherFinder {
         get { self[WeatherFinder.self] }
@@ -15,17 +21,15 @@ extension DependencyValues {
     }
 }
 
-actor WeatherFinder: DependencyKey {
+extension WeatherFinder: DependencyKey {
     
-    static var liveValue = WeatherFinder()
-    
-    private init() {}
-    
-    func findWeather(request: WeatherRequest) async throws -> WeatherData  {
-        print("WeatherFinder: \(request.query)")
-        let response = try await URLSession.shared.data(from: request.query)
-        let data = try JSONDecoder().decode(WeatherResponse.self, from: response.0)
-        print("LocationFinder: \(data)")
-        return .init(lastUpdate: Date(), content: data)
-    }
+    static var liveValue = Self(
+        findWeather: { request in
+            print("WeatherFinder: \(request.query)")
+            let response = try await URLSession.shared.data(from: request.query)
+            let data = try JSONDecoder().decode(WeatherResponse.self, from: response.0)
+            print("LocationFinder: \(data)")
+            return .init(lastUpdate: Date(), content: data)
+        }
+    )
 }
