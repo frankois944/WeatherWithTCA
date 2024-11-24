@@ -38,6 +38,7 @@ struct WeatherLocationSelectorFeature {
         // MARK: Location Lookup
         
         case startRequest(request: String)
+        case failedRequest(error: String)
         case endRequest(response: [WeatherLocation])
         case selectLocation(location: WeatherLocation)
         case cancelTapped
@@ -74,9 +75,17 @@ struct WeatherLocationSelectorFeature {
             case .startRequest(let request):
                 state.isLoading = true
                 return .run { send in
-                    let result = await locationFinder.findLocation(request: .init(text: request))
-                    await send(.endRequest(response: result))
+                    do {
+                        let result = try await locationFinder.findLocation(request: .init(text: request))
+                        await send(.endRequest(response: result))
+                    } catch {
+                        await send(.failedRequest(error: error.localizedDescription))
+                    }
                 }
+            case .failedRequest(let error):
+                print("findLocation: \(error)")
+                state.isLoading = false
+                return .none
             case .endRequest(let response):
                 state.locations = .init(uniqueElements: response)
                 state.isLoading = false
