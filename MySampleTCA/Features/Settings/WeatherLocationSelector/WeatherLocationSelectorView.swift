@@ -72,9 +72,16 @@ struct WeatherLocationSelectorView: View {
 
 
 #Preview {
+    
+    let store = withDependencies {
+        $0.locationFinder = .previewValue
+    } operation: {
+        WeatherLocationSelectorFeature()
+    }
+
     NavigationStack {
         WeatherLocationSelectorView(store: .init(initialState: WeatherLocationSelectorFeature.State(), reducer: {
-            WeatherLocationSelectorFeature()
+            store
         }))
     }
 }

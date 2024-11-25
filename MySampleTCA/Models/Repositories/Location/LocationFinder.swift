@@ -39,3 +39,21 @@ extension LocationFinder: DependencyKey {
         }
     )
 }
+
+
+extension LocationFinder: TestDependencyKey {
+    
+    static let previewData: [WeatherLocation] = [
+        .init(name: "preview1", lon: 1, lat: 2),
+        .init(name: "preview2", lon: 1, lat: 2),
+        .init(name: "preview3", lon: 1, lat: 2)
+    ]
+    
+    static let previewValue =  Self(
+        findLocation: { request in
+            return previewData.filter {
+                $0.name.localizedCaseInsensitiveContains(request.text)
+            }
+        }
+    )
+}

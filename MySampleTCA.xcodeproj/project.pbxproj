@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071AEE0F2CF37DF9009FF095 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 071AEE0E2CF37DF9009FF095 /* ViewInspector */; };
+		071AEE422CF47383009FF095 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 071AEE412CF47383009FF095 /* SnapshotTesting */; };
 		078FBCB92CF09F2A00753ADD /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 078FBCB82CF09F2A00753ADD /* Dependencies */; };
 		078FBCBB2CF09F2A00753ADD /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 078FBCBA2CF09F2A00753ADD /* DependenciesMacros */; };
 		078FBCBD2CF09F2A00753ADD /* DependenciesTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 078FBCBC2CF09F2A00753ADD /* DependenciesTestSupport */; };
@@ -24,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		071AEE3F2CF470AF009FF095 /* MySampleTCA.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MySampleTCA.xctestplan; sourceTree = "<group>"; };
 		07A549122CEF240100FD51BB /* MySampleTCATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySampleTCATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07D417F82CEC798000C339B8 /* MySampleTCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySampleTCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -59,7 +62,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				071AEE422CF47383009FF095 /* SnapshotTesting in Frameworks */,
 				078FBCBD2CF09F2A00753ADD /* DependenciesTestSupport in Frameworks */,
+				071AEE0F2CF37DF9009FF095 /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +84,7 @@
 		07D417EF2CEC798000C339B8 = {
 			isa = PBXGroup;
 			children = (
+				071AEE3F2CF470AF009FF095 /* MySampleTCA.xctestplan */,
 				07D417FA2CEC798000C339B8 /* MySampleTCA */,
 				07A549132CEF240100FD51BB /* MySampleTCATests */,
 				07D417F92CEC798000C339B8 /* Products */,
@@ -116,6 +122,8 @@
 			name = MySampleTCATests;
 			packageProductDependencies = (
 				078FBCBC2CF09F2A00753ADD /* DependenciesTestSupport */,
+				071AEE0E2CF37DF9009FF095 /* ViewInspector */,
+				071AEE412CF47383009FF095 /* SnapshotTesting */,
 			);
 			productName = MySampleTCATests;
 			productReference = 07A549122CEF240100FD51BB /* MySampleTCATests.xctest */;
@@ -177,6 +185,8 @@
 			packageReferences = (
 				07D4180C2CEC7A6B00C339B8 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				078FBCB72CF09F2A00753ADD /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				071AEE0D2CF37DF9009FF095 /* XCRemoteSwiftPackageReference "ViewInspector" */,
+				071AEE402CF47383009FF095 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 07D417F92CEC798000C339B8 /* Products */;
@@ -239,8 +249,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
-				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dummy.MySampleTCATests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -261,8 +271,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
-				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dummy.MySampleTCATests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -505,6 +515,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		071AEE0D2CF37DF9009FF095 /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nalexn/ViewInspector";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.0;
+			};
+		};
+		071AEE402CF47383009FF095 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.6;
+			};
+		};
 		078FBCB72CF09F2A00753ADD /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
@@ -524,6 +550,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		071AEE0E2CF37DF9009FF095 /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 071AEE0D2CF37DF9009FF095 /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
+		};
+		071AEE412CF47383009FF095 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 071AEE402CF47383009FF095 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
 		078FBCB82CF09F2A00753ADD /* Dependencies */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 078FBCB72CF09F2A00753ADD /* XCRemoteSwiftPackageReference "swift-dependencies" */;

@@ -73,9 +73,7 @@ struct RootFeature {
                 }
                 state.tab1.$weatherConfig = state.$weatherConfig
                 state.tab2.$weatherConfig = state.$weatherConfig
-                return WeatherFeature()
-                    .reduce(into: &state.tab1, action: .onAppear)
-                    .map { .tab1($0) }
+                return .send(.tab1(.onAppear))
                 
                 // MARK: Tabs
                 

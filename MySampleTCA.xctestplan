@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "D64C67EC-60B2-4A19-8C46-62DEEE41A673",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:MySampleTCA.xcodeproj",
+      "identifier" : "07D417F72CEC798000C339B8",
+      "name" : "MySampleTCA"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:MySampleTCA.xcodeproj",
+        "identifier" : "07A549112CEF240100FD51BB",
+        "name" : "MySampleTCATests"
+      }
+    }
+  ],
+  "version" : 1
+}

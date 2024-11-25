@@ -21,3 +21,7 @@ struct WeatherLocation: Equatable, Identifiable, Hashable, Codable {
         self.lat = lat
     }
 }
+
+extension WeatherLocation {
+    static let MyLocation = WeatherLocation(name: "My Location", lon: -1, lat: -1)
+}

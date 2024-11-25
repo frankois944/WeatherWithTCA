@@ -13,7 +13,7 @@ import ComposableArchitecture
 struct WeatherFinder {
     var findWeather: @Sendable (WeatherRequest) async throws -> WeatherData
 }
-    
+
 extension DependencyValues {
     var weatherFinder: WeatherFinder {
         get { self[WeatherFinder.self] }

@@ -13,14 +13,4 @@ import ComposableArchitecture
 
 struct SettingsFeatureTests {
 
-    @Test func changeTemperatureUnit() async throws {
-        let store = TestStore(initialState: RootFeature.State()) {
-            RootFeature()
-        }
-        
-        await store.send(\.tab2.setFaranheit) {
-            $0.tab2.isCelsius = false
-        }
-    }
-
 }

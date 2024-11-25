@@ -22,13 +22,11 @@ struct WeatherLocationSelectorFeature {
     
     // MARK: - State
     
-    private static let myLocationItem = WeatherLocation(name: "My Location", lon: -1, lat: -1)
-    
     @ObservableState
     struct State: Equatable {
         var firstTime: Bool = false
         var isLoading: Bool = false
-        var locations: IdentifiedArrayOf<WeatherLocation> = [myLocationItem]
+        var locations: IdentifiedArrayOf<WeatherLocation> = [WeatherLocation.MyLocation]
         @Presents var myLocationErrorDialog: AlertState<Action.MyLocationErrorDialog>?
     }
     
@@ -48,6 +46,7 @@ struct WeatherLocationSelectorFeature {
         // MARK: Delegation
         
         case delegate(Delegate)
+        @CasePathable
         enum Delegate: Equatable {
             case onSelectedLocationEvent(location: WeatherLocation)
         }
@@ -94,7 +93,7 @@ struct WeatherLocationSelectorFeature {
                 return .none
             case .selectLocation(let location):
                 return .run { send in
-                    if location == WeatherLocationSelectorFeature.myLocationItem {
+                    if location == WeatherLocation.MyLocation {
                         await send(.setMyLocationTapped)
                     } else {
                         await send(.delegate(.onSelectedLocationEvent(location: location)))

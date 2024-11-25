@@ -14,6 +14,7 @@ struct WeatherContent: View {
     
     let weatherData: WeatherData
     let weatherConfig: WeatherConfig
+    internal let inspection = Inspection<Self>()
     
     @State private var iconOpacity: Double = 0
     @State private var iconScale: CGFloat = 0.5
@@ -109,6 +110,7 @@ struct WeatherContent: View {
                 detailsOpacity = [1, 1, 1, 1]
             }
         }
+        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
     
     // Helper to map weather ID to SF Symbol
@@ -148,3 +150,10 @@ struct WeatherDetailRow: View {
         }
     }
 }
+
+
+#Preview {
+    WeatherContent(weatherData: .init(lastUpdate: Date(), name: "France", icon: 200, temp: 42, description: "Hot!", feelsLike: 100, humidity: 42, wind: 200, clouds: 300),
+                   weatherConfig: .init(location: .init(name: "France", lon: 42, lat: 42), unit: .celsius))
+}
+

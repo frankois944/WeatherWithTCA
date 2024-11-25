@@ -20,6 +20,18 @@ struct WeatherData: Equatable, Hashable, Codable {
     let wind: Double
     let clouds: Int
     
+    init(lastUpdate: Date?, name: String, icon: Int, temp: Double, description: String, feelsLike: Double, humidity: Int, wind: Double, clouds: Int) {
+        self.lastUpdate = lastUpdate
+        self.name = name
+        self.icon = icon
+        self.temp = temp
+        self.description = description
+        self.feelsLike = feelsLike
+        self.humidity = humidity
+        self.wind = wind
+        self.clouds = clouds
+    }
+    
     init(lastUpdate: Date? = nil, content: WeatherResponse? = nil) {
         self.lastUpdate = lastUpdate
         self.name = content?.name ?? "N/A"
