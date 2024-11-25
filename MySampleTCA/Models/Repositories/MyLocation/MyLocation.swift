@@ -5,9 +5,7 @@
 //  Created by Francois Dabonot on 22/11/2024.
 //
 
-import Foundation
 import ComposableArchitecture
-import CoreLocation
 
 @DependencyClient
 struct MyLocation {

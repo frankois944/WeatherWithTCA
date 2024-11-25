@@ -11,10 +11,6 @@ import Foundation
 @Reducer
 struct RootFeature {
     
-    // MARK: - Dependency
-    
-    @Dependency(\.locationFinder) var locationFinder
-    
     // MARK: - State
     
     @ObservableState
@@ -29,18 +25,18 @@ struct RootFeature {
     
     enum Action {
         
-        // MARK: Tabs
+        // MARK: Lifecycle
         
-        case tab1(WeatherFeature.Action)
-        case tab2(SettingsFeature.Action)
+        case onAppear
         
         // MARK: Location
         
         case setLocation(PresentationAction<WeatherLocationSelectorFeature.Action>)
         
-        // MARK: Lifecycle
+        // MARK: Tabs
         
-        case onAppear
+        case tab1(WeatherFeature.Action)
+        case tab2(SettingsFeature.Action)
     }
     
     // MARK: - Reducer
@@ -55,14 +51,6 @@ struct RootFeature {
         Reduce { state, action in
             switch action {
                 
-                // MARK: Location
-                
-            case .setLocation(.presented(.delegate(.onSelectedLocationEvent(location: let location)))):
-                state.weatherConfig.location = location
-                return .none
-            case .setLocation:
-                return .none
-                
                 // MARK: Lifecycle
                 
             case .onAppear:
@@ -74,6 +62,14 @@ struct RootFeature {
                 state.tab1.$weatherConfig = state.$weatherConfig
                 state.tab2.$weatherConfig = state.$weatherConfig
                 return .send(.tab1(.onAppear))
+                
+                // MARK: Location
+                
+            case .setLocation(.presented(.delegate(.onSelectedLocationEvent(location: let location)))):
+                state.weatherConfig.location = location
+                return .none
+            case .setLocation:
+                return .none
                 
                 // MARK: Tabs
                 

@@ -5,9 +5,8 @@
 //  Created by Francois Dabonot on 22/11/2024.
 //
 
-import Foundation
-import Dependencies
 import ComposableArchitecture
+import Foundation
 
 @DependencyClient
 struct WeatherFinder {

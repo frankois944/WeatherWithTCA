@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Dependencies
 import ComposableArchitecture
 
 @DependencyClient
@@ -49,9 +48,23 @@ extension LocationFinder: TestDependencyKey {
         .init(name: "preview3", lon: 1, lat: 2)
     ]
     
-    static let previewValue =  Self(
+    static let previewValue = Self(
         findLocation: { request in
             return previewData.filter {
+                $0.name.localizedCaseInsensitiveContains(request.text)
+            }
+        }
+    )
+    
+    static let testData: [WeatherLocation] = [
+        .init(name: "test1", lon: 1, lat: 2),
+        .init(name: "test2", lon: 1, lat: 2),
+        .init(name: "test3", lon: 1, lat: 2)
+    ]
+    
+    static let testValue = Self(
+        findLocation: { request in
+            return testData.filter {
                 $0.name.localizedCaseInsensitiveContains(request.text)
             }
         }

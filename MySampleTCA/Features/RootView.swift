@@ -35,9 +35,6 @@ struct RootView: View {
                         .interactiveDismissDisabled()
                 }
             }
-            .onChange(of: store.scope(state: \.tab2, action: \.tab2)) { old, new in
-                print("toto \(old) - \(new)")
-            }
             .task {
                 await store.send(.onAppear).finish()
             }
