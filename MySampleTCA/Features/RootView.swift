@@ -47,3 +47,10 @@ struct RootView: View {
         RootFeature()
     })
 }
+
+#Preview {
+    RootView(store: .init(initialState: RootFeature.State(weatherConfig: .init(location: .init(name: "Paris MOCK", lon: 10, lat: 10),
+                                                                               unit: .faranheit))) {
+        RootFeature()
+    })
+}

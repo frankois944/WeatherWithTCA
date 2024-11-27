@@ -19,6 +19,16 @@ struct RootFeature {
         var tab2 = SettingsFeature.State()
         @Shared(.storedWeatherConfig) var weatherConfig: WeatherConfig = .init()
         @Presents var setLocation: WeatherLocationSelectorFeature.State?
+        
+        init(tab1: WeatherFeature.State = WeatherFeature.State(),
+             tab2: SettingsFeature.State = SettingsFeature.State(),
+             weatherConfig: WeatherConfig = .init(),
+             setLocation: WeatherLocationSelectorFeature.State? = nil) {
+            self.tab1 = tab1
+            self.tab2 = tab2
+            self.weatherConfig = weatherConfig
+            self.setLocation = setLocation
+        }
     }
     
     // MARK: - Action

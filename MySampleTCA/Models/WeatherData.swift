@@ -49,16 +49,24 @@ struct WeatherData: Equatable, Hashable, Codable {
 struct WeatherDataPersistenceKey: PersistenceKey, Equatable {
     let id: String
     
+    static var inMemoryValue: WeatherData = .init()
+    
     func load(initialValue: WeatherData? = .init())-> WeatherData? {
-        if let data = UserDefaults.standard.data(forKey: "CurrentWeatherData") {
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
+            return WeatherDataPersistenceKey.inMemoryValue
+        } else if let data = UserDefaults.standard.data(forKey: "CurrentWeatherData") {
             return (try? JSONDecoder().decode(WeatherData.self, from: data)) ?? .init()
         }
         return .init()
     }
     
     func save(_ value: WeatherData) {
-        if let data = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(data, forKey: "CurrentWeatherData")
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
+            WeatherDataPersistenceKey.inMemoryValue = value
+        } else {
+            if let data = try? JSONEncoder().encode(value) {
+                UserDefaults.standard.set(data, forKey: "CurrentWeatherData")
+            }
         }
     }
 }

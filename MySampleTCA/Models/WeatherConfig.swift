@@ -16,15 +16,21 @@ struct WeatherConfig: Equatable, Hashable, Codable {
 struct WeatherConfigPersistenceKey: PersistenceKey, Equatable {
     let id: String
     
-    func load(initialValue: WeatherConfig? = .init())-> WeatherConfig? {
-        if let data = UserDefaults.standard.data(forKey: "CurrentWeatherConfig") {
+    static var inMemoryValue: WeatherConfig = .init()
+    
+    func load(initialValue: WeatherConfig? = .init()) -> WeatherConfig? {
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
+            return WeatherConfigPersistenceKey.inMemoryValue
+        } else if let data = UserDefaults.standard.data(forKey: "CurrentWeatherConfig") {
             return (try? JSONDecoder().decode(WeatherConfig.self, from: data)) ?? .init()
         }
         return .init()
     }
     
     func save(_ value: WeatherConfig) {
-        if let data = try? JSONEncoder().encode(value) {
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == nil {
+            WeatherConfigPersistenceKey.inMemoryValue = value
+        } else if let data = try? JSONEncoder().encode(value) {
             UserDefaults.standard.set(data, forKey: "CurrentWeatherConfig")
         }
     }

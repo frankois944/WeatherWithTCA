@@ -8,7 +8,7 @@
 import ComposableArchitecture
 
 @DependencyClient
-struct MyLocation {
+struct MyLocationFinder {
     
     private static let myLocationService = MyLocationService()
     
@@ -16,13 +16,13 @@ struct MyLocation {
 }
 
 extension DependencyValues {
-    var myLocationFinder: MyLocation {
-        get { self[MyLocation.self] }
-        set { self[MyLocation.self] = newValue }
+    var myLocationFinder: MyLocationFinder {
+        get { self[MyLocationFinder.self] }
+        set { self[MyLocationFinder.self] = newValue }
     }
 }
 
-extension MyLocation : DependencyKey {
+extension MyLocationFinder : DependencyKey {
     static var liveValue = Self(
         getLatestLocation: {
             try await myLocationService.getLatestLocation()

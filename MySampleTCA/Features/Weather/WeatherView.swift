@@ -37,7 +37,7 @@ struct WeatherView: View {
 
 #Preview {
     WeatherView(
-        store: Store(initialState: WeatherFeature.State()) {
+        store: Store(initialState: WeatherFeature.State(isLoading: true)) {
             WeatherFeature()
         }
     )
