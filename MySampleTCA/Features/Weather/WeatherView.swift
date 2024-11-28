@@ -13,7 +13,7 @@ struct WeatherView: View {
     
     var body: some View {
         VStack {
-            if store.weatherConfig.location != nil, store.weatherData.lastUpdate != nil {
+            if store.weatherData.lastUpdate != nil {
                 GeometryReader { proxy in
                     ScrollView {
                         WeatherContent(weatherData: store.weatherData,

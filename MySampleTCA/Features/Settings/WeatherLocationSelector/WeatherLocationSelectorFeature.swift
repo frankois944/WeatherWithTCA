@@ -37,10 +37,10 @@ struct WeatherLocationSelectorFeature {
         
         // MARK: Location Lookup
         
+        case selectLocation(location: WeatherLocation)
         case startRequest(request: String)
         case failedRequest(error: String)
         case endRequest(response: [WeatherLocation])
-        case selectLocation(location: WeatherLocation)
         case cancelTapped
         
         // MARK: Delegation
@@ -72,7 +72,15 @@ struct WeatherLocationSelectorFeature {
             switch action {
                 
                 // MARK: Location Lookup
-                
+            case .selectLocation(let location):
+                return .run { send in
+                    if location == WeatherLocation.MyLocation {
+                        await send(.setMyLocationTapped)
+                    } else {
+                        await send(.delegate(.onSelectedLocationEvent(location: location)))
+                        await self.dismiss()
+                    }
+                }
             case .startRequest(let request):
                 state.isLoading = true
                 return .run { send in
@@ -91,15 +99,6 @@ struct WeatherLocationSelectorFeature {
                 state.locations = .init(uniqueElements: response)
                 state.isLoading = false
                 return .none
-            case .selectLocation(let location):
-                return .run { send in
-                    if location == WeatherLocation.MyLocation {
-                        await send(.setMyLocationTapped)
-                    } else {
-                        await send(.delegate(.onSelectedLocationEvent(location: location)))
-                        await self.dismiss()
-                    }
-                }
             case .cancelTapped:
                 return .run { _ in await self.dismiss() }
                 
