@@ -28,7 +28,7 @@ struct WeatherView: View {
                 }.ignoresSafeArea()
             }
         }.overlay {
-            if store.isLoading {
+            if store.isLoading && store.weatherData.lastUpdate == nil {
                 ProgressView("Loading weather")
             }
         }

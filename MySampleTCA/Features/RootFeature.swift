@@ -64,13 +64,11 @@ struct RootFeature {
                 // MARK: Lifecycle
                 
             case .onAppear:
-                defer {
-                    if (state.weatherConfig.location == nil) {
-                        state.setLocation = WeatherLocationSelectorFeature.State(firstTime: true)
-                    }
-                }
                 state.tab1.$weatherConfig = state.$weatherConfig
                 state.tab2.$weatherConfig = state.$weatherConfig
+                if (state.weatherConfig.location == nil) {
+                    state.setLocation = WeatherLocationSelectorFeature.State(firstTime: true)
+                }
                 return .send(.tab1(.onAppear))
                 
                 // MARK: Location
