@@ -28,7 +28,7 @@ struct WeatherConfigPersistenceKey: PersistenceKey, Equatable {
     }
     
     func save(_ value: WeatherConfig) {
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == nil {
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
             WeatherConfigPersistenceKey.inMemoryValue = value
         } else if let data = try? JSONEncoder().encode(value) {
             UserDefaults.standard.set(data, forKey: "CurrentWeatherConfig")
