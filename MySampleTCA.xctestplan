@@ -9,6 +9,15 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:MySampleTCA.xcodeproj",
+          "identifier" : "07D417F72CEC798000C339B8",
+          "name" : "MySampleTCA"
+        }
+      ]
+    },
     "targetForVariableExpansion" : {
       "containerPath" : "container:MySampleTCA.xcodeproj",
       "identifier" : "07D417F72CEC798000C339B8",

@@ -39,6 +39,8 @@ extension LocationFinder: DependencyKey {
     )
 }
 
+// don't include test data for RELEASE BUILD
+#if DEBUG
 
 extension LocationFinder: TestDependencyKey {
     
@@ -70,3 +72,5 @@ extension LocationFinder: TestDependencyKey {
         }
     )
 }
+
+#endif
