@@ -61,7 +61,7 @@ struct WeatherRain: Codable, Equatable, Hashable {
 
 // MARK: - Sys
 struct WeatherSys: Codable, Equatable, Hashable {
-    let type, id: Int
+    let type, id: Int?
     let country: String
     let sunrise, sunset: Int
 }
