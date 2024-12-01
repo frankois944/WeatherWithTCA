@@ -49,8 +49,9 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(store: .init(initialState: RootFeature.State(weatherConfig: .init(location: .init(name: "Paris MOCK", lon: 10, lat: 10),
-                                                                               unit: .faranheit))) {
-        RootFeature()
+    @Shared(.storedWeatherConfig) var weatherConfig: WeatherConfig = .init(location: .init(name: "Paris MOCK", lon: 10, lat: 10), unit: .faranheit)
+    
+    RootView(store: .init(initialState: RootFeature.State()) {
+        return RootFeature()
     })
 }
