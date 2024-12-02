@@ -72,16 +72,10 @@ struct WeatherLocationSelectorView: View {
 
 
 #Preview {
-    
-    let store = withDependencies {
-        $0.locationFinder = .previewValue
-    } operation: {
-        WeatherLocationSelectorFeature()
-    }
-
     NavigationStack {
         WeatherLocationSelectorView(store: .init(initialState: WeatherLocationSelectorFeature.State(), reducer: {
-            store
+            WeatherLocationSelectorFeature()
+                .dependency(\.locationFinder, .previewValue)
         }))
     }
 }
@@ -89,19 +83,19 @@ struct WeatherLocationSelectorView: View {
 #Preview {
     NavigationStack {
         WeatherLocationSelectorView(store: .init(initialState: WeatherLocationSelectorFeature.State(locations: [
-            .init(id: UUID(), name: "Paris, France", lon: 0, lat: 0)
+            .init(id: UUID(), name: "PREVIEW Paris, France", lon: 0, lat: 0),
+            .init(id: UUID(), name: "PREVIEW2 Paris, France", lon: 0, lat: 0)
         ]), reducer: {
             WeatherLocationSelectorFeature()
-        }))
+        }), searchQuery: "Paris")
     }
 }
 
-
 #Preview {
     NavigationStack {
-        WeatherLocationSelectorView(store: .init(initialState: WeatherLocationSelectorFeature.State(), reducer: {
+        WeatherLocationSelectorView(store: .init(initialState: WeatherLocationSelectorFeature.State(locations: []), reducer: {
             WeatherLocationSelectorFeature()
-        }), searchQuery: "MOCK")
+        }), searchQuery: "NO DATA")
     }
 }
 
