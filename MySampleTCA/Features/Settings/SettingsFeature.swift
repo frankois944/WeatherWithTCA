@@ -50,7 +50,9 @@ struct SettingsFeature {
                 // MARK: Temperature
                 
             case let .setTemperatureUnit(unit):
-                state.weatherConfig.unit = unit
+                state.$weatherConfig.withLock {
+                    $0.unit = unit
+                }
                 return .none
                 
                 // MARK: Location
@@ -59,7 +61,9 @@ struct SettingsFeature {
                 state.setLocation = WeatherLocationSelectorFeature.State()
                 return .none
             case .setLocation(.presented(.delegate(.onSelectedLocationEvent(location: let location)))):
-                state.weatherConfig.location = location
+                state.$weatherConfig.withLock {
+                    $0.location = location
+                }
                 return .none
             case .setLocation:
                 return .none

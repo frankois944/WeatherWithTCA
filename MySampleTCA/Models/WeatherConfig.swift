@@ -8,36 +8,46 @@
 import Foundation
 import ComposableArchitecture
 
-struct WeatherConfig: Equatable, Hashable, Codable {
+struct WeatherConfig: Hashable, Codable, Equatable {
     var location: WeatherLocation?
     var unit: TemperatureUnit = TemperatureUnit(rawValue: UnitTemperature(forLocale: Locale.current).symbol)!
 }
 
-struct WeatherConfigPersistenceKey: PersistenceKey, Equatable {
+struct WeatherConfigPersistenceKey: SharedKey {
+
     let id: String
     
-    static var inMemoryValue: WeatherConfig?
+    static var inMemoryValue: WeatherConfig? = .init()
     
-    func load(initialValue: WeatherConfig?) -> WeatherConfig? {
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
-            return WeatherConfigPersistenceKey.inMemoryValue
-        } else if let data = UserDefaults.standard.data(forKey: "CurrentWeatherConfig") {
-            return (try? JSONDecoder().decode(WeatherConfig.self, from: data)) ?? .init()
+    func subscribe(context: Sharing.LoadContext<WeatherConfig>, subscriber: Sharing.SharedSubscriber<WeatherConfig>) -> Sharing.SharedSubscription {
+        .init {
+            
         }
-        return .init()
     }
     
-    func save(_ value: WeatherConfig) {
+    func load(context: LoadContext<WeatherConfig>, continuation: LoadContinuation<WeatherConfig>) {
+        var value: WeatherConfig? = context.initialValue
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
+            value = WeatherConfigPersistenceKey.inMemoryValue
+        } else if let data = UserDefaults.standard.data(forKey: id) {
+            value = (try? JSONDecoder().decode(WeatherConfig.self, from: data))
+        }
+        continuation.resume(returning: value ?? .init())
+    }
+    
+    func save(_ value: WeatherConfig, context: SaveContext, continuation: SaveContinuation) {
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
             WeatherConfigPersistenceKey.inMemoryValue = value
         } else if let data = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(data, forKey: "CurrentWeatherConfig")
+            UserDefaults.standard.set(data, forKey: id)
         }
+        continuation.resume()
     }
 }
 
-extension PersistenceReaderKey where Self == WeatherConfigPersistenceKey {
+extension SharedReaderKey where Self == WeatherConfigPersistenceKey {
     static var storedWeatherConfig: WeatherConfigPersistenceKey {
-        .init(id: "weatherConfigPersistenceKey")
+        .init(id: "CurrentWeatherConfig")
     }
 }
+

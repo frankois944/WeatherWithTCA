@@ -46,33 +46,41 @@ struct WeatherData: Equatable, Hashable, Codable {
 }
 
 
-struct WeatherDataPersistenceKey: PersistenceKey, Equatable {
+struct WeatherDataPersistenceKey: SharedKey {
+
     let id: String
     
     static var inMemoryValue: WeatherData = .init()
     
-    func load(initialValue: WeatherData? = .init())-> WeatherData? {
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
-            return WeatherDataPersistenceKey.inMemoryValue
-        } else if let data = UserDefaults.standard.data(forKey: "CurrentWeatherData") {
-            return (try? JSONDecoder().decode(WeatherData.self, from: data)) ?? .init()
+    
+    func subscribe(context: Sharing.LoadContext<WeatherData>, subscriber: Sharing.SharedSubscriber<WeatherData>) -> Sharing.SharedSubscription {
+        .init {
+            
         }
-        return .init()
     }
     
-    func save(_ value: WeatherData) {
+    func load(context: LoadContext<WeatherData>, continuation: LoadContinuation<WeatherData>) {
+        var value: WeatherData? = context.initialValue
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
+            value = WeatherDataPersistenceKey.inMemoryValue
+        } else if let data = UserDefaults.standard.data(forKey: id) {
+            value = (try? JSONDecoder().decode(WeatherData.self, from: data))
+        }
+        continuation.resume(returning: value ?? .init())
+    }
+    
+    func save(_ value: WeatherData, context: SaveContext, continuation: SaveContinuation) {
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != nil {
             WeatherDataPersistenceKey.inMemoryValue = value
-        } else {
-            if let data = try? JSONEncoder().encode(value) {
-                UserDefaults.standard.set(data, forKey: "CurrentWeatherData")
-            }
+        } else if let data = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(data, forKey: id)
         }
+        continuation.resume()
     }
 }
 
-extension PersistenceReaderKey where Self == WeatherDataPersistenceKey {
+extension SharedReaderKey where Self == WeatherDataPersistenceKey {
     static var storedWeatherData: WeatherDataPersistenceKey {
-        .init(id: "WeatherDataPersistenceKey")
+        .init(id: "CurrentWeatherConfig")
     }
 }

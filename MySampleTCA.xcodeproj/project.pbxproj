@@ -520,7 +520,7 @@
 			repositoryURL = "https://github.com/nalexn/ViewInspector";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.10.0;
+				minimumVersion = 0.10.1;
 			};
 		};
 		071AEE402CF47383009FF095 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
@@ -528,7 +528,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.17.6;
+				minimumVersion = 1.18.1;
 			};
 		};
 		078FBCB72CF09F2A00753ADD /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
@@ -536,7 +536,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.6.0;
+				minimumVersion = 1.7.0;
 			};
 		};
 		07D4180C2CEC7A6B00C339B8 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
@@ -544,7 +544,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.16.1;
+				minimumVersion = 1.17.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

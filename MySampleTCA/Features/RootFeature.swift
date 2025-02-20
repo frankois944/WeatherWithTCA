@@ -64,7 +64,9 @@ struct RootFeature {
                 // MARK: Location
                 
             case .setLocation(.presented(.delegate(.onSelectedLocationEvent(location: let location)))):
-                state.weatherConfig.location = location
+                state.$weatherConfig.withLock {
+                    $0.location = location
+                }
                 return .none
             case .setLocation:
                 return .none

@@ -76,7 +76,9 @@ struct WeatherFeature {
                 return .none
             case .endRequest(let data):
                 state.isLoading = false
-                state.weatherData = data
+                state.$weatherData.withLock {
+                    $0 = data
+                }
                 return .none
             }
         }
